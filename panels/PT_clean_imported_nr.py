@@ -10,10 +10,10 @@ class VIEW3D_PT_clean_imported_nr(NRCleanupChildPanel, bpy.types.Panel):
     def draw(self, context):
         layout = self.layout
 
-        props = bpy.context.scene.nr_cleanup_props
+        nrc_props = bpy.context.scene.nrc_props
 
         col = layout.column()
-        col.prop(props, "collection_from_nr", text="Map collection")
+        col.prop(nrc_props, "nr_collection", text="Map collection")
         col.operator(COLLECTION_OT_select_collection_from_nr.bl_idname, text="01. Select Map Collection")
 
         col = layout.column()

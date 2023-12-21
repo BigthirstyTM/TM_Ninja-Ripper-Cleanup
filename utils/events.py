@@ -28,7 +28,7 @@ def _on_active_obj(*args) -> None:
     """Run when active object changes:
     
     - When a different object is clicked in viewport
-    - Everytime an object is clicked is outliner"""
+    - Everytime an object is clicked in outliner"""
     pass
 
 

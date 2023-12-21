@@ -1,9 +1,6 @@
 import bpy
 
-from ..utils.math import (
-    cross,
-    length
-)
+from mathutils import Vector
 
 
 class MESH_OT_delete_vertical_faces(bpy.types.Operator):
@@ -16,13 +13,13 @@ class MESH_OT_delete_vertical_faces(bpy.types.Operator):
     
     @classmethod
     def poll(cls, context):
-        return context.object.type == 'MESH'
+        return (context.object and context.object.type == 'MESH')
     
     def invoke(self, context, event):
         return context.window_manager.invoke_props_dialog(self, width=300)
     
     def execute(self, context):                
-        up_vector = [0., 0., 1.]
+        vec_up = Vector((0.0, 0.0, 1.0))
         
         bpy.ops.object.mode_set(mode='EDIT')
         bpy.ops.mesh.select_mode(use_extend=False, use_expand=False, type='FACE')
@@ -37,9 +34,9 @@ class MESH_OT_delete_vertical_faces(bpy.types.Operator):
         
         # Selecting vertical faces
         for f in faces:
-            normal_x_up = cross(f.normal, up_vector)
+            cross_product = Vector.cross(f.normal, vec_up)
             # If the norm of cross profuct is 1., then the face is vertical    
-            if (length(normal_x_up) == 1.):
+            if (cross_product.length == 1.0):
                 f.select = True
             else:
                 f.select = False

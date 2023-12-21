@@ -26,7 +26,7 @@ class MESH_OT_delete_by_materials(bpy.types.Operator):
 
     @classmethod
     def poll(cls, context):
-        return (context.object.type == 'MESH')
+        return (context.object and context.object.type == 'MESH')
     
     def execute(self, context):
         selected_materials = [ms.name for ms in self.material_selection if ms.selected]

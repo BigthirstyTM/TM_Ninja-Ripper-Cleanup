@@ -35,7 +35,7 @@ def register():
     panels.register_classes()
 
     # Extend blender data
-    bpy.types.Scene.nr_cleanup_props = bpy.props.PointerProperty(type=properties.NRCleanup_Props)
+    bpy.types.Scene.nrc_props = bpy.props.PointerProperty(type=properties.NRCleanup_Props)
 
     events.start_listening()
 
