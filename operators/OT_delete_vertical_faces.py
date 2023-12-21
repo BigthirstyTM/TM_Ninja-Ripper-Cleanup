@@ -7,6 +7,7 @@ from ..utils.math import (
 
 
 class MESH_OT_delete_vertical_faces(bpy.types.Operator):
+    """Delete the faces that are vertical in local space"""
     bl_idname = 'mesh.delete_vertical_faces'
     bl_label = 'Delete Vertical Faces'
     bl_options = {'REGISTER', 'UNDO'}

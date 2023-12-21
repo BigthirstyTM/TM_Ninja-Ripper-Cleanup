@@ -1,6 +1,6 @@
 import bpy
 
-from . import NRCleanupPanel
+from .panels import NRCleanupPanel
 
 
 class VIEW3D_PT_nr_cleanup(NRCleanupPanel, bpy.types.Panel):

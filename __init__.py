@@ -1,8 +1,5 @@
+import os
 import bpy
-
-# Note from Skyrow : v0.1.0 changes
-# - Packaged addon into multiple files
-# - Panels and operators rename
 
 bl_info = {
     "name": "NR_Cleanup",
@@ -14,48 +11,42 @@ bl_info = {
     "category": "Trackmania",
 }
 
+LOG_DEBUG = True
 
-# Import props
-from .properties.nr_cleanup_props import NRCleanup_Props
-# Import operators
-from .operators.OT_select_collection_from_nr import COLLECTION_OT_select_collection_from_nr
-from .operators.OT_make_route_collection import OBJECT_OT_make_route_collection
-from .operators.OT_delete_vertical_faces import MESH_OT_delete_vertical_faces
-# Import panels
-from .panels.PT_nr_cleanup import VIEW3D_PT_nr_cleanup
-from .panels.PT_select_collection_from_nr import VIEW3D_PT_select_collection_from_nr
-from .panels.PT_make_route_collection import VIEW3D_PT_make_route_collection
-from .panels.PT_delete_vertical_faces import VIEW3D_PT_delete_vertical_faces
+ADDON_DIRNAME = os.path.dirname(__file__)
+
+# Third party modules
+from . import properties
+from . import operators
+from . import panels
+from .utils import events
+from .utils import logs
 
 
-# Define register order
-classes = (
-    # Props
-    NRCleanup_Props,
-    # Operators
-    COLLECTION_OT_select_collection_from_nr,
-    OBJECT_OT_make_route_collection,
-    MESH_OT_delete_vertical_faces,
-    # Panels (order matters here)
-    VIEW3D_PT_nr_cleanup,
-    VIEW3D_PT_select_collection_from_nr,
-    VIEW3D_PT_make_route_collection,
-    VIEW3D_PT_delete_vertical_faces,
-)
-
+log = logs.get_logger(__name__)
 
 # Register addon
 def register():
-    for cls in classes:
-        bpy.utils.register_class(cls)
+    logs.start_logging()
 
-    bpy.types.Scene.nr_cleanup_props = bpy.props.PointerProperty(type=NRCleanup_Props)
+    # Register classes
+    properties.register_classes()
+    operators.register_classes()
+    panels.register_classes()
+
+    # Extend blender data
+    bpy.types.Scene.nr_cleanup_props = bpy.props.PointerProperty(type=properties.NRCleanup_Props)
+
+    events.start_listening()
+
 
 # Unregister addon
 def unregister():
-    for cls in reversed(classes):
-        bpy.utils.unregister_class(cls)
-    
+    events.stop_listening()
 
-if __name__ == "__main__":
-    register()
+    # Unregister classes
+    panels.unregister_classes()
+    operators.unregister_classes()
+    properties.unregister_classes()
+
+    logs.stop_logging()

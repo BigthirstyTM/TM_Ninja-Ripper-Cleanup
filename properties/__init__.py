@@ -3,15 +3,11 @@
 # Private
 
 # Public
-from .PT_clean_imported_nr import VIEW3D_PT_clean_imported_nr
-from .PT_cleaning_tools import VIEW3D_PT_cleaning_tools
-from .PT_nr_cleanup import VIEW3D_PT_nr_cleanup
+from .properties import NRCleanup_Props
 
 
 _classes = (
-    VIEW3D_PT_nr_cleanup,
-    VIEW3D_PT_clean_imported_nr,
-    VIEW3D_PT_cleaning_tools,
+    NRCleanup_Props,
 )
 
 def register_classes():
