@@ -1,4 +1,4 @@
-"""Expose subclasses to be registered"""
+"""Expose property subclasses to be registered"""
 
 # Private
 

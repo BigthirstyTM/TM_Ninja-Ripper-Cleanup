@@ -1,4 +1,4 @@
-"""Expose subclasses to be registered"""
+"""Expose panel subclasses to be registered"""
 
 # Private
 
@@ -9,6 +9,9 @@ from .PT_nr_cleanup import VIEW3D_PT_nr_cleanup
 
 
 _classes = (
+    # Register order is important for panels :
+    # - Parents must be registered before childs
+    # - Panels registered first will appear above other panels
     VIEW3D_PT_nr_cleanup,
     VIEW3D_PT_clean_imported_nr,
     VIEW3D_PT_cleaning_tools,
