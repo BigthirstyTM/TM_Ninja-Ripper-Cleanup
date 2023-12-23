@@ -2,10 +2,18 @@ import bpy
 
 
 class OBJECT_OT_make_route_collection(bpy.types.Operator):
+    """Create a new collection with only selected objects (linked)."""
     bl_idname = "object.make_route_collection"
     bl_label = "Make Route Collection"
     bl_options = {'REGISTER', 'UNDO'}
 
+    @classmethod
+    def poll(cls, context):
+        return (
+            context.selected_objects
+            and context.mode == 'OBJECT'
+        )
+    
     def execute(self, context):
         cleaned_route_collection = bpy.data.collections.get("Cleaned Route")
         if not cleaned_route_collection:

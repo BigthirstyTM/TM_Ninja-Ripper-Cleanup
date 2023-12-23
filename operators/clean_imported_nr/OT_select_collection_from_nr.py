@@ -10,7 +10,10 @@ class COLLECTION_OT_select_collection_from_nr(bpy.types.Operator):
 
     @classmethod
     def poll(cls, context):
-        return bpy.context.scene.nrc_props.nr_collection
+        return (
+            context.scene.nrc_props.nr_collection
+            and context.mode == 'OBJECT'
+        )
     
     def execute(self, context):
         # Get props
@@ -50,8 +53,6 @@ class COLLECTION_OT_select_collection_from_nr(bpy.types.Operator):
         bpy.ops.mesh.separate(type='MATERIAL')
 
         self.report({'INFO'}, f"Joined objects in collection: {collection_name}. Other collections removed.")
-        #else:
-            #self.report({'ERROR'}, f"Collection not found: {collection_name}")
         
         return {'FINISHED'}
 

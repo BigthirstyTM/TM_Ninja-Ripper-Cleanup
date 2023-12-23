@@ -1,12 +1,9 @@
 import bpy
 
-from .operators import (
+from ..operators import (
     MaterialSelection,
     MATERIAL_UL_material_selection,
 )
-
-from ..utils import logs
-log = logs.get_logger(__name__)
 
 
 class MESH_OT_delete_by_materials(bpy.types.Operator):
@@ -26,7 +23,12 @@ class MESH_OT_delete_by_materials(bpy.types.Operator):
 
     @classmethod
     def poll(cls, context):
-        return (context.object and context.object.type == 'MESH')
+        return (
+            context.mode == 'OBJECT'
+            and context.object is not None
+            and context.object.type == 'MESH'
+            and len(context.selected_objects) > 0
+        )
     
     def execute(self, context):
         selected_materials = [ms.name for ms in self.material_selection if ms.selected]
