@@ -6,10 +6,10 @@ from ..operators import (
 )
 
 
-class MESH_OT_delete_by_materials(bpy.types.Operator):
+class MESH_OT_delete_faces_by_material(bpy.types.Operator):
     """Delete the faces that doesn't match a material selection."""
-    bl_idname = 'object.delete_by_materials'
-    bl_label = 'Delete by materials'
+    bl_idname = 'mesh.delete_faces_by_material'
+    bl_label = 'Delete Faces By Material'
     bl_options = {'REGISTER', 'UNDO'}
 
     active_mat_item_index: bpy.props.IntProperty(default=0)

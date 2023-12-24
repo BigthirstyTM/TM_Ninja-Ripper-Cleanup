@@ -5,7 +5,7 @@ from math import radians, sin
 
 
 class MESH_OT_delete_not_linked_flat_faces(bpy.types.Operator):
-    """Delete the not linked flat to horizontal faces in local/world space for selected meshes"""
+    """Delete the not linked flat to selected faces."""
     bl_idname = 'mesh.delete_not_linked_flat_faces'
     bl_label = 'Delete Not Linked Flat Faces'
     bl_options = {'REGISTER', 'UNDO'}
