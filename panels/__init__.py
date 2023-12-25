@@ -1,11 +1,28 @@
-"""Expose panel subclasses to be registered"""
+"""Expose panel subclasses and (un)register function."""
 
-# Private
 
-# Public
-from .PT_clean_imported_nr import VIEW3D_PT_clean_imported_nr
-from .PT_cleaning_tools import VIEW3D_PT_cleaning_tools
-from .PT_nr_cleanup import VIEW3D_PT_nr_cleanup
+class _NRCPanel():
+    bl_space_type = 'VIEW_3D'
+    bl_region_type = 'UI'
+    bl_category = 'NR Cleanup'
+
+
+class _NRCChildPanel(_NRCPanel):
+    bl_parent_id = 'VIEW3D_PT_nr_cleanup'
+
+
+
+from .PT_clean_imported_nr import (
+    VIEW3D_PT_clean_imported_nr,
+)
+
+from .PT_cleaning_tools import (
+    VIEW3D_PT_cleaning_tools,
+)
+
+from .PT_nrc import (
+    VIEW3D_PT_nr_cleanup,
+)
 
 
 _classes = (

@@ -1,15 +1,47 @@
-"""Expose operrator subclasses to be registered"""
+"""Expose operator subclasses and (un)register function."""
 
-# Private
-from .operators import MaterialSelection as _MaterialSelection
-from .operators import MATERIAL_UL_material_selection as _MATERIAL_UL_material_selection
-# Public
-from .clean_imported_nr.OT_select_collection_from_nr import COLLECTION_OT_select_collection_from_nr
-from .clean_imported_nr.OT_make_route_collection import OBJECT_OT_make_route_collection
-from .cleaning_tools.OT_delete_by_materials import MESH_OT_delete_faces_by_material
-from .cleaning_tools.OT_delete_not_linked_flat_faces import MESH_OT_delete_not_linked_flat_faces
-from .cleaning_tools.OT_delete_vertical_faces import MESH_OT_delete_vertical_faces
-from .misc.OT_message_popup import WINDOW_OT_message_popup 
+
+from .clean_imported_nr.OT_select_collection_from_nr import (
+
+    COLLECTION_OT_select_collection_from_nr,
+)
+
+from .clean_imported_nr.OT_make_route_collection import (
+
+    OBJECT_OT_make_route_collection,
+)
+
+from .cleaning_tools.OT_delete_by_materials import (
+
+    MaterialSelection as _MaterialSelection,
+    MATERIAL_UL_material_selection as _MATERIAL_UL_material_selection,
+    MESH_OT_delete_faces_by_material,
+)
+
+from .cleaning_tools.OT_delete_not_linked_flat_faces import (
+
+    MESH_OT_delete_not_linked_flat_faces,
+)
+
+from .cleaning_tools.OT_delete_vertical_faces import (
+
+    MESH_OT_delete_vertical_faces,
+)
+
+from .preferences.OT_nrc_check_update import (
+
+    PREFERENCES_OT_nrc_check_update
+)
+
+from .preferences.OT_nrc_do_update import (
+
+    PREFERENCES_OT_nrc_do_update
+)
+
+from .ui.OT_message_popup import (
+
+    UI_OT_message_popup,
+)
 
 
 _classes = (
@@ -21,7 +53,9 @@ _classes = (
     MESH_OT_delete_faces_by_material,
     MESH_OT_delete_not_linked_flat_faces,
     MESH_OT_delete_vertical_faces,
-    WINDOW_OT_message_popup,
+    PREFERENCES_OT_nrc_check_update,
+    PREFERENCES_OT_nrc_do_update,
+    UI_OT_message_popup,
 )
 
 def register_classes():
