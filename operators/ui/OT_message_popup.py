@@ -1,8 +1,8 @@
 import bpy
 
 
-class WINDOW_OT_message_popup(bpy.types.Operator):
-    bl_idname = 'window.message_popup'
+class UI_OT_message_popup(bpy.types.Operator):
+    bl_idname = 'ui.message_popup'
     bl_label = 'Message Popup'
 
     title: bpy.props.StringProperty(name='Title', default='')
