@@ -4,8 +4,8 @@ import bpy
 bl_info = {
     "name": "NR_Cleanup",
     "author": "Bigthirsty & Skyrow",
-    "version": (0, 1, 0), #<major>.<minor>.<patch>
-    "blender": (4, 0, 1),
+    "version": (0, 2, 0), #<major>.<minor>.<patch>
+    "blender": (3, 6, 0),
     "location": "3D Viewport > Sidebar > NR Cleanup",
     "description": "Cleans up NinjaRipped trackmania2020 maps to driving surfaces only",
     "category": "Trackmania",
