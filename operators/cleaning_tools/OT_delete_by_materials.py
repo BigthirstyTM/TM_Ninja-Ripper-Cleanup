@@ -1,9 +1,24 @@
 import bpy
+import bmesh
 
-from ..operators import (
-    MaterialSelection,
-    MATERIAL_UL_material_selection,
-)
+
+class MaterialSelection(bpy.types.PropertyGroup):
+    """Store boolean to make a selection."""  
+    #name: bpy.props.StringProperty(name='Name', default='undefined') duplicate name if enabled...
+    selected: bpy.props.BoolProperty(name='Selected', default=True)
+
+
+class MATERIAL_UL_material_selection(bpy.types.UIList):
+    """Draw callback for each item of our material selection."""
+    #bl_idname = 'MATERIAL_UL_material_selection'
+
+    def draw_item(self, context, layout, data, item, icon, active_data, active_propname):
+        mat = item
+        icon = bpy.data.materials[mat.name].preview.icon_id
+        if self.layout_type in {'DEFAULT', 'COMPACT'}: # GRID layout not supported
+            row = layout.row()
+            row.prop(mat, 'name', text='', emboss=False, icon_value=icon)
+            row.prop(mat, 'selected', text='')
 
 
 class MESH_OT_delete_faces_by_material(bpy.types.Operator):
@@ -79,7 +94,7 @@ class MESH_OT_delete_faces_by_material(bpy.types.Operator):
             row.prop(active_mat_item, 'selected', text='Delete', toggle=1, icon='TRASH')
         # Material selection list                           
         col.template_list(
-            listtype_name=MATERIAL_UL_material_selection.bl_idname,
+            listtype_name='_MATERIAL_UL_material_selection',
             list_id='',
             dataptr=self,
             propname='material_selection',
