@@ -1,15 +1,15 @@
 import bpy
 
-from .panels import NRCleanupChildPanel
+from . import _NRCChildPanel
 
 from ..operators import (
-    WINDOW_OT_message_popup,
+    UI_OT_message_popup,
     COLLECTION_OT_select_collection_from_nr,
     OBJECT_OT_make_route_collection,
 )
 
 
-class VIEW3D_PT_clean_imported_nr(NRCleanupChildPanel, bpy.types.Panel):
+class VIEW3D_PT_clean_imported_nr(_NRCChildPanel, bpy.types.Panel):
     bl_label = 'Clean Imported NR'
     bl_options = {'HEADER_LAYOUT_EXPAND'}
 
@@ -20,7 +20,7 @@ class VIEW3D_PT_clean_imported_nr(NRCleanupChildPanel, bpy.types.Panel):
         box = layout.box()
         row = box.row()
         row.label(text='01. Select Map Collection')
-        op = row.operator(WINDOW_OT_message_popup.bl_idname, text='', icon='QUESTION')
+        op = row.operator(UI_OT_message_popup.bl_idname, text='', icon='QUESTION')
         op.message = \
             'hey is this working ?\n' \
             + 'OK FINE'   
@@ -30,7 +30,7 @@ class VIEW3D_PT_clean_imported_nr(NRCleanupChildPanel, bpy.types.Panel):
         box = layout.box()
         row = box.row()
         row.label(text='02. Create Route Collection')
-        op = row.operator('WINDOW_OT_message_box', text='', icon='QUESTION')
+        op = row.operator(UI_OT_message_popup.bl_idname, text='', icon='QUESTION')
         op.message = \
             'hey is this working ?\n' \
             + 'OK FINE'   
