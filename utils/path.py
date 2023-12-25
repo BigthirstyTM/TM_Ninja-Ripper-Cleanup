@@ -3,7 +3,7 @@
 import bpy
 import os
 
-from .. import ADDON_DIRNAME
+from .. import ADDON_DIRNAME as _ADDON_DIRNAME
 
 
 def native_path(path: str) -> str:
@@ -28,7 +28,7 @@ def dirname(pathname: str) -> str:
 
 def get_addon_dirname() -> str:
     """Returns the addon directory."""
-    return ADDON_DIRNAME
+    return _ADDON_DIRNAME
 
 
 def get_blenderfile_path() -> str:
