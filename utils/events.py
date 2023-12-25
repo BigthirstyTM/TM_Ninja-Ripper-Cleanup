@@ -10,7 +10,7 @@ from bpy.app.handlers import persistent
 
 from . import path
 from . import logs
-
+from . import update
 
 # logging
 log = logs.get_logger(__name__)
@@ -39,9 +39,10 @@ def _on_load_post(filepath) -> None:
     filepath = path.native_path(filepath)
     if filepath == "":
         # Runs post startup
-        pass
+        pass #update.AddonUpdate.check_for_new_release()
     else:
         # Runs post file load
+        #update.AddonUpdate.check_for_new_release()
         pass
 
 
