@@ -1,20 +1,33 @@
 import bpy
 
 from . import _NRCPanel
+from .. import bl_info
+from ..utils.logs import html_logs_filepath
 from ..utils.update import AddonUpdate
 from ..operators import (
     PREFERENCES_OT_nrc_check_update,
     PREFERENCES_OT_nrc_do_update,
+    UI_OT_open_url,
 )
 
 class VIEW3D_PT_nr_cleanup(_NRCPanel, bpy.types.Panel):
     bl_label = 'Ninja Ripped Map Cleanup'
 
     def draw(self, context):
-        layout = self.layout
-        row = layout.row()
+        current_version_str = f'v{".".join(str(i) for i in bl_info["version"])}'
+        new_version_str = f'v{".".join(str(i) for i in AddonUpdate.latest_addon_version)}'
+        
 
+        layout = self.layout
+        box = layout.box()
+        
+        row = box.row(align=True)
+        row.label(text=f'{current_version_str}', icon='FILE_SCRIPT')
         if AddonUpdate.can_update:
-            row.operator(PREFERENCES_OT_nrc_do_update.bl_idname)
+            row.operator(PREFERENCES_OT_nrc_do_update.bl_idname, text=f'{new_version_str}', icon='IMPORT')
         else:
-            row.operator(PREFERENCES_OT_nrc_check_update.bl_idname)
+            row.operator(PREFERENCES_OT_nrc_check_update.bl_idname, text='', icon='FILE_REFRESH')
+        
+        row = box.row(align=True)
+        row.operator(UI_OT_open_url.bl_idname, text='Github', icon='URL').url = 'https://github.com/BigthirstyTM/TM_Ninja-Ripper-Cleanup.git'
+        row.operator(UI_OT_open_url.bl_idname, text='', icon='FILE_TEXT').url = html_logs_filepath
