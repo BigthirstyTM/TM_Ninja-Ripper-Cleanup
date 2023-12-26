@@ -40,7 +40,6 @@ _debug_info={
     'addon_version' : '.'.join(str(i) for i in bl_info["version"]),
     'blender_bin'   : bpy.app.binary_path,
     'addon_dir'     : path.get_addon_dirname(),
-    'w_perm'        : os.access(path.get_addon_dirname(), os.W_OK),
     'platform'      : platform.platform(),
     'architecture'  : ' - '.join(str(i) for i in platform.architecture()),
     'processor'     : platform.processor(),
@@ -151,8 +150,7 @@ _html_header = textwrap.dedent('\
       Blender version: %(bl_version)s\n\
       Addon version: %(addon_version)s\n\n\
       Blender executable: "%(blender_bin)s"\n\
-      Addon directory: "%(addon_dir)s"\n\
-        Write permission: %(w_perm)s\n\n\
+      Addon directory: "%(addon_dir)s"\n\n\
       Platform informations:\n\
         %(platform)s\n\
         %(architecture)s\n\
