@@ -1,6 +1,5 @@
 import bpy
 import os
-#import os.path
 import shutil
 import requests
 import zipfile
@@ -10,12 +9,12 @@ import io
 from .. import bl_info
 from ..utils import path
 from ..utils import logs
-
-
-URL_RELEASES = "https://api.github.com/repos/BigthirstyTM/TM_Ninja-Ripper-Cleanup/releases"
-
+from ..utils.constants import (
+    URL_RELEASES,
+)
 
 log = logs.get_logger(__name__)
+
 
 class AddonUpdate():   
     current_addon_version:tuple = bl_info["version"]
@@ -29,6 +28,7 @@ class AddonUpdate():
     new_addon_available:bool = False
     current_blender_supported:bool = False
     can_update: bool = False
+    update_successfull = False
 
     @classmethod
     def check_can_update(cls) :
@@ -38,7 +38,6 @@ class AddonUpdate():
         log.debug(f'Addon current -> latest : {cls.current_addon_version} -> {cls.latest_addon_version}')
         log.debug(f'Blender current -> minimal : {cls.current_blender_version} -> {cls.latest_minimal_blender_version}')
         log.debug(f'{cls.latest_is_prerelease = }')
-        log.debug(f'{cls.latest_filename = }')
 
         if cls.new_addon_available:
             log.info(f'Update available: v{cls.latest_addon_version} > {cls.current_addon_version}')
@@ -75,7 +74,7 @@ class AddonUpdate():
             match = re.search(pattern, latest_asset_name, flags=re.IGNORECASE)
             latest_minimal_blender_version = (int(match.group('major')), int(match.group('minor')))
         except Exception as e:
-            log.exception('Error during parse of release metadata')        
+            log.exception('Error during parse of release metadata.')
         else:
             # Update class attributes
             cls.latest_addon_version = latest_addon_version
@@ -89,27 +88,30 @@ class AddonUpdate():
 
     @classmethod
     def do_update(cls) -> None:
+        
+        def on_rmtree_error(function, path, excinfo):
+            log.error(f'<{function.__name__}> "{path}" ({excinfo[1]})')
+
         if cls.can_update:
             log.info('Updating addon now...')
+
             url      = cls.latest_download_url
-            addon_path = path.get_addon_dirname()
-            extract_to:str = None
+            addon_path = path.get_addon_path().resolve()
+            extract_to = addon_path.parent
 
-            if os.path.islink(addon_path):
-                extract_to = path.dirname(os.readlink(addon_path))
-            else:
-                extract_to = path.dirname(addon_path)
-
-            log.info(f'{addon_path = }')
-            log.info(f'{extract_to = }')
+            log.debug(f'{addon_path = }')
+            log.debug(f'{extract_to = }')
             
-            # try:
-            #     r = requests.get(url)
-            #     z = zipfile.ZipFile(io.BytesIO(r.content))
+            try:
+                r = requests.get(url)
+                z = zipfile.ZipFile(io.BytesIO(r.content))
 
-            #     shutil.rmtree(path.get_addon_dirname(), False)
+                shutil.rmtree(addon_path, ignore_errors=False, onerror=on_rmtree_error)
+                z.extractall(extract_to)
+                
+            except Exception as e:
+                log.exception('Error during addon update')
 
-            #     z.extractall(extract_to)
-            #     log.info('Addon updated, blender must be restarted.')
-            # except Exception as e:
-            #     log.exception('Error during addon update')
+            else:
+                cls.update_successfull = True
+                log.info('Addon updated, blender must be restarted.')

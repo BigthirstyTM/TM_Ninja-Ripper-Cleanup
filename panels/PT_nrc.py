@@ -5,9 +5,9 @@ from .. import bl_info
 from ..utils.logs import html_logs_filepath
 from ..utils.update import AddonUpdate
 from ..operators import (
+    UI_OT_open_url,
     PREFERENCES_OT_nrc_check_update,
     PREFERENCES_OT_nrc_do_update,
-    UI_OT_open_url,
 )
 
 class VIEW3D_PT_nr_cleanup(_NRCPanel, bpy.types.Panel):
@@ -22,12 +22,15 @@ class VIEW3D_PT_nr_cleanup(_NRCPanel, bpy.types.Panel):
         box = layout.box()
         
         row = box.row(align=True)
-        row.label(text=f'{current_version_str}', icon='FILE_SCRIPT')
-        if AddonUpdate.can_update:
-            row.operator(PREFERENCES_OT_nrc_do_update.bl_idname, text=f'{new_version_str}', icon='IMPORT')
+        if AddonUpdate.update_successfull:
+            row.label(text='Blender must be restarted !', icon ='FILE_SCRIPT')
         else:
-            row.operator(PREFERENCES_OT_nrc_check_update.bl_idname, text='', icon='FILE_REFRESH')
+            row.label(text=f'{current_version_str}', icon='FILE_SCRIPT')
+            if AddonUpdate.can_update:
+                row.operator(PREFERENCES_OT_nrc_do_update.bl_idname, text=f'{new_version_str}', icon='IMPORT')
+            else:
+                row.operator(PREFERENCES_OT_nrc_check_update.bl_idname, text='', icon='FILE_REFRESH')
         
         row = box.row(align=True)
         row.operator(UI_OT_open_url.bl_idname, text='Github', icon='URL').url = 'https://github.com/BigthirstyTM/TM_Ninja-Ripper-Cleanup.git'
-        row.operator(UI_OT_open_url.bl_idname, text='', icon='FILE_TEXT').url = html_logs_filepath
+        row.operator(UI_OT_open_url.bl_idname, text='', icon='FILE_TEXT').url = str(html_logs_filepath)
