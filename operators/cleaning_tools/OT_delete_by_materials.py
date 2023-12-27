@@ -94,7 +94,7 @@ class MESH_OT_delete_faces_by_material(bpy.types.Operator):
             row.prop(active_mat_item, 'selected', text='Delete', toggle=1, icon='TRASH')
         # Material selection list                           
         col.template_list(
-            listtype_name='_MATERIAL_UL_material_selection',
+            listtype_name='MATERIAL_UL_material_selection',
             list_id='',
             dataptr=self,
             propname='material_selection',
