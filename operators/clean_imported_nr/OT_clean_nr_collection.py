@@ -1,12 +1,13 @@
 import bpy
 
 
-class COLLECTION_OT_select_collection_from_nr(bpy.types.Operator):
-    bl_idname = "collection.select_collection_from_nr"
-    bl_label = "Select Collection From NR"
+class OBJECT_OT_clean_nr_collection(bpy.types.Operator):
+    """Join all objects in the selected collection and remove other collections"""
+    bl_idname = 'collection.clean_nr_collection'
+    bl_label = 'Clean NR Collection'
     bl_options = {'REGISTER', 'UNDO'}
 
-    flip_meshes: bpy.props.BoolProperty(name="Flip meshes", default=True)
+    flip_vertically: bpy.props.BoolProperty(name='Flip vertically', default=True)
 
     @classmethod
     def poll(cls, context):
@@ -42,7 +43,7 @@ class COLLECTION_OT_select_collection_from_nr(bpy.types.Operator):
                 bpy.data.collections.remove(collection)
 
         # Mirror map on Z Global
-        if self.flip_meshes:        
+        if self.flip_vertically:        
             bpy.ops.transform.mirror(orient_type='GLOBAL', orient_matrix=((1, 0, 0), (0, 1, 0), (0, 0, 1)), orient_matrix_type='GLOBAL', constraint_axis=(False, False, True))
 
         # Clean up Mat doubles
@@ -52,7 +53,7 @@ class COLLECTION_OT_select_collection_from_nr(bpy.types.Operator):
         # Separate by material
         bpy.ops.mesh.separate(type='MATERIAL')
 
-        self.report({'INFO'}, f"Joined objects in collection: {collection_name}. Other collections removed.")
+        self.report({'INFO'}, f'Joined objects in collection: "{collection_name}". Other collections removed.')
         
         return {'FINISHED'}
 

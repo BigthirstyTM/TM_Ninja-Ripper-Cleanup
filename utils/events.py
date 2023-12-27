@@ -9,7 +9,6 @@ import bpy
 from bpy.app.handlers import persistent
 
 from . import logs
-from . import update
 
 # logging
 log = logs.get_logger(__name__)
@@ -37,10 +36,10 @@ def _on_load_post(filepath) -> None:
     """Run post blender startup & file load"""
     if filepath == '':
         # Runs post startup
-        pass #update.AddonUpdate.check_for_new_release()
+        bpy.ops.preferences.nrc_check_update()
+        
     else:
         # Runs post file load
-        #update.AddonUpdate.check_for_new_release()
         pass
 
 

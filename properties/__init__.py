@@ -3,10 +3,12 @@
 # Private
 
 # Public
+from .preferences import AddonPreferences
 from .properties import NRCleanup_Props
 
 
 _classes = (
+    AddonPreferences,
     NRCleanup_Props,
 )
 

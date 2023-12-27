@@ -5,8 +5,9 @@ from ...utils.update import AddonUpdate
 
 
 class PREFERENCES_OT_nrc_check_update(bpy.types.Operator):
+    """Check if new release is available"""
     bl_idname = 'preferences.nrc_check_update'
-    bl_label = 'NR_Cleanup Check Update'
+    bl_label = 'Check Update'
 
     def execute(self, context):
         AddonUpdate.check_for_new_release()

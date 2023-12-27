@@ -3,13 +3,13 @@ import bmesh
 
 
 class MaterialSelection(bpy.types.PropertyGroup):
-    """Store boolean to make a selection."""  
+    """Store boolean to make a selection"""  
     #name: bpy.props.StringProperty(name='Name', default='undefined') duplicate name if enabled...
     selected: bpy.props.BoolProperty(name='Selected', default=True)
 
 
 class MATERIAL_UL_material_selection(bpy.types.UIList):
-    """Draw callback for each item of our material selection."""
+    """Draw callback for each item of our material selection"""
     #bl_idname = 'MATERIAL_UL_material_selection'
 
     def draw_item(self, context, layout, data, item, icon, active_data, active_propname):
@@ -21,9 +21,9 @@ class MATERIAL_UL_material_selection(bpy.types.UIList):
             row.prop(mat, 'selected', text='')
 
 
-class MESH_OT_delete_faces_by_material(bpy.types.Operator):
-    """Delete the faces that doesn't match a material selection."""
-    bl_idname = 'mesh.delete_faces_by_material'
+class OBJECT_OT_delete_faces_by_material(bpy.types.Operator):
+    """Delete the faces that doesn't match a material selection"""
+    bl_idname = 'object.delete_faces_by_material'
     bl_label = 'Delete Faces By Material'
     bl_options = {'REGISTER', 'UNDO'}
 
@@ -46,25 +46,31 @@ class MESH_OT_delete_faces_by_material(bpy.types.Operator):
         )
     
     def execute(self, context):
-        selected_materials = [ms.name for ms in self.material_selection if ms.selected]
-        material_at_slot =  [ms.name for ms in bpy.context.object.material_slots]
-        # don't make any copy to preserve memory
-        bpy.ops.object.mode_set(mode='EDIT')
-        bpy.ops.mesh.select_mode(use_extend=False, use_expand=False, type='FACE')
-        bpy.ops.mesh.select_all(action='DESELECT')
-        bpy.ops.object.mode_set(mode='OBJECT')
-        for f in context.object.data.polygons:
-            if material_at_slot[f.material_index] not in selected_materials:
-                f.select = True
-        bpy.ops.object.mode_set(mode='EDIT')
-        bpy.ops.mesh.delete(type='FACE')
-        bpy.ops.object.mode_set(mode='OBJECT')
+        for obj in context.selected_objects:
+            if obj.type == 'MESH':
+                selected_materials = [ms.name for ms in self.material_selection if ms.selected]
+                material_at_slot =  [ms.name for ms in obj.material_slots]
+                # Get the mesh data
+                bm = bmesh.new()
+                bm.from_mesh(obj.data)
+                # Selecting faces to delete
+                delete_faces = [f for f in bm.faces if material_at_slot[f.material_index] not in selected_materials]
+                # Delete selected faces
+                bmesh.ops.delete(bm, geom=delete_faces, context='FACES')
+                # Write the bmesh back to the mesh
+                bm.to_mesh(obj.data)
+                obj.data.update()
+                bm.free()
+                self.report({'INFO'}, f'Deleted {len(delete_faces)} faces in {obj.name}')
         return {'FINISHED'}
         
     def invoke(self, context, event):
-        for mat in context.object.data.materials:
-            m = self.material_selection.add()
-            m.name = mat.name
+        for obj in context.selected_objects:
+            if obj.type == 'MESH':
+                for mat in obj.data.materials:
+                    if mat.name not in self.material_selection:
+                        m = self.material_selection.add()
+                        m.name = mat.name
         return context.window_manager.invoke_props_dialog(self, width=300)
     
     def check(self, context):

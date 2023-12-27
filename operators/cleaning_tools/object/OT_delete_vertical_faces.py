@@ -4,9 +4,9 @@ from mathutils import Vector
 from math import radians, sin
 
 
-class MESH_OT_delete_vertical_faces(bpy.types.Operator):
-    """Delete the vertical faces in local/world space for selected meshes."""
-    bl_idname = 'mesh.delete_vertical_faces'
+class OBJECT_OT_delete_vertical_faces(bpy.types.Operator):
+    """Delete the vertical faces in local/world space for selected meshes"""
+    bl_idname = 'object.delete_vertical_faces'
     bl_label = 'Delete Vertical Faces'
     bl_options = {'REGISTER', 'UNDO'}
     
@@ -39,8 +39,10 @@ class MESH_OT_delete_vertical_faces(bpy.types.Operator):
         for obj in context.selected_objects:
             if obj.type == 'MESH':
                 # Get the mesh data
+                mesh = obj.data
+                # Create a bew bmesh
                 bm = bmesh.new()
-                bm.from_mesh(obj.data)
+                bm.from_mesh(mesh)
                 # Cancel the obj rotation matrix
                 if self.in_world_space:
                     bmesh.ops.transform(bm, matrix=obj.matrix_world.to_3x3().inverted(), verts=bm.verts)
@@ -52,8 +54,8 @@ class MESH_OT_delete_vertical_faces(bpy.types.Operator):
                 if self.in_world_space:
                     bmesh.ops.transform(bm, matrix=obj.matrix_world.to_3x3(), verts=bm.verts)
                 # Write the bmesh back to the mesh
-                bm.to_mesh(obj.data)
-                obj.data.update()
+                bm.to_mesh(mesh)
+                mesh.update()
                 bm.free()
                 self.report({'INFO'}, f'Deleted {len(vertical_faces)} faces in {obj.name}')
         return {'FINISHED'}

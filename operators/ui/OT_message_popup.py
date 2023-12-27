@@ -2,6 +2,7 @@ import bpy
 
 
 class UI_OT_message_popup(bpy.types.Operator):
+    """Show a message in a popup window"""
     bl_idname = 'ui.message_popup'
     bl_label = 'Message Popup'
 
@@ -21,3 +22,7 @@ class UI_OT_message_popup(bpy.types.Operator):
         lines = self.message.split('\n')
         for i in range(len(lines)):
             layout.label(text=lines[i])
+
+    @classmethod
+    def description(cls, context, properties) -> str:
+        return f'{properties.title}'

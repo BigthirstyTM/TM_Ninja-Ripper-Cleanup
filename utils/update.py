@@ -1,5 +1,14 @@
+"""Automatic detection of new release and update function encapsuled in a single class.
+
+### Mandatory for a new release:
+- Tag name must contain the version number formatted as:
+  - "v%d.%d.%d" <=> "v<major>.<minor>.<patch>" (addon version)
+
+- Asset file must always end with:
+  - "%d.%d.zip" <=> "<major>.<minor>.zip" (blender version)
+"""
+
 import bpy
-import os
 import shutil
 import requests
 import zipfile
@@ -63,13 +72,11 @@ class AddonUpdate():
             latest_asset = latest['assets'][0]
             latest_asset_name = latest_asset['name']
             latest_asset_download_url = latest_asset['browser_download_url']
-            # Get latest addon version from github API
-            # Tag name must respect the format : "v%d.%d.%d"        
+            # Get latest addon version from github API      
             pattern = rf'^v(?P<major>\d+)\.(?P<minor>\d+)\.(?P<patch>\d+)'
             match = re.search(pattern, latest_tag_name, flags=re.IGNORECASE)
             latest_addon_version = (int(match.group('major')), int(match.group('minor')), int(match.group('patch')))
             # Get latest addon blender version from the asset name
-            # Asset file must always end with "%d.%d.zip"
             pattern = rf'(?P<major>\d+)\.(?P<minor>\d+)\.zip$'
             match = re.search(pattern, latest_asset_name, flags=re.IGNORECASE)
             latest_minimal_blender_version = (int(match.group('major')), int(match.group('minor')))
@@ -90,7 +97,7 @@ class AddonUpdate():
     def do_update(cls) -> None:
         
         def on_rmtree_error(function, path, excinfo):
-            log.error(f'<{function.__name__}> "{path}" ({excinfo[1]})')
+            log.error(f'<{function.__name__}> {excinfo[1]}')
 
         if cls.can_update:
             log.info('Updating addon now...')

@@ -3,8 +3,8 @@ import webbrowser
 
 
 class UI_OT_open_url(bpy.types.Operator):
+    """Open an url or a local file in the web browser"""
     bl_idname = "ui.open_url"
-    bl_description = "Open URL in web browser"
     bl_label = "Open URL"
 
     url: bpy.props.StringProperty("")
@@ -12,3 +12,7 @@ class UI_OT_open_url(bpy.types.Operator):
     def execute(self, context):
         webbrowser.open(self.url)
         return {"FINISHED"}
+    
+    @classmethod
+    def description(cls, context, properties) -> str:
+        return f'"{properties.url}"'

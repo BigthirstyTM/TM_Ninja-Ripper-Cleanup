@@ -32,7 +32,6 @@ from .. import (
 )
 
 
-#html_logs_filepath = path.join(path.get_addon_path(), 'log.html')
 html_logs_filepath = path.make_path(path.get_addon_path(), 'logs.html')
 
 _debug_info={
@@ -127,16 +126,16 @@ _html_metadata = textwrap.dedent('\
     <head>\n\
       <title>%(name)s logs</title>\n\
       <style>\n\
-      body   {color: white; background-color: black; white-space: pre; font-family: monospace; font-size: large;}\n\
+      body   {color: white; background-color: black; white-space: pre; font-family: monospace; font-size: large}\n\
       .l1    {color: dodgerblue}\n\
       .l2    {color: lawngreen}\n\
       .l3    {color: yellow}\n\
       .l4    {color: crimson}\n\
       .l5    {color: magenta}\n\
       .msg   {color: grey}\n\
-      .ei    {color: steelblue;}\n\
-      .si    {color: steelblue;}\n\
-      .t     {color: grey;}\n\
+      .ei    {color: steelblue}\n\
+      .si    {color: steelblue}\n\
+      .t     {color: grey}\n\
       </style>\n\
     </head>\n\n\
     ') % bl_info
