@@ -1,29 +1,27 @@
-import os
-import bpy
-
 bl_info = {
     "name": "NR_Cleanup",
     "author": "Bigthirsty & Skyrow",
-    "version": (0, 2, 0), #<major>.<minor>.<patch>
+    "version": (0, 3, 0), #<major>.<minor>.<patch>
     "blender": (3, 6, 0),
     "location": "3D Viewport > Sidebar > NR Cleanup",
     "description": "Cleans up NinjaRipped trackmania2020 maps to driving surfaces only",
     "category": "Trackmania",
 }
 
+ROOT_PATH = __file__
 LOG_DEBUG = True
 
-ADDON_DIRNAME = os.path.dirname(__file__)
 
-# Third party modules
+import bpy
+
 from . import properties
 from . import operators
 from . import panels
 from .utils import events
 from .utils import logs
 
-
 log = logs.get_logger(__name__)
+
 
 # Register addon
 def register():
