@@ -19,11 +19,10 @@ CRITICAL  | `log.critical("Critical msg", stack_info=True)`
 """
 
 import logging
-import copy
-import textwrap
 import html
-import os
 import platform
+import textwrap
+import copy
 import bpy
 
 from . import path
@@ -33,13 +32,14 @@ from .. import (
 )
 
 
-html_logs_filepath = path.join(path.get_addon_dirname(), 'log.html')
+#html_logs_filepath = path.join(path.get_addon_path(), 'log.html')
+html_logs_filepath = path.make_path(path.get_addon_path(), 'logs.html')
 
 _debug_info={
     'bl_version'    : bpy.app.version_string,
     'addon_version' : '.'.join(str(i) for i in bl_info["version"]),
     'blender_bin'   : bpy.app.binary_path,
-    'addon_dir'     : path.get_addon_dirname(),
+    'addon_path'     : path.get_addon_path(),
     'platform'      : platform.platform(),
     'architecture'  : ' - '.join(str(i) for i in platform.architecture()),
     'processor'     : platform.processor(),
@@ -51,9 +51,7 @@ _debug_info={
 #---------------------------------------------------------------------------
 
 class _ConsoleStyleFormatter(logging.Formatter):
-    """This is a formatter which add escape codes to the record.
-    
-    https://en.wikipedia.org/wiki/ANSI_escape_code#SGR_(Select_Graphic_Rendition)_parameters"""
+    """This is a formatter which add escape codes to the record."""
     level_to_color = {
         logging.DEBUG       :   '1;34', # bright blue
         logging.INFO        :   '1;32', # bright green
@@ -89,9 +87,7 @@ class _ConsoleStyleFormatter(logging.Formatter):
 #---------------------------------------------------------------------------
 
 class _HtmlStyleFormatter(logging.Formatter):
-    """
-    This is a formatter which add html balises to the record.  
-    """
+    """This is a formatter which add html balises to the record."""
     level_to_color = {
         logging.DEBUG       :   'l1',
         logging.INFO        :   'l2',
@@ -150,7 +146,7 @@ _html_header = textwrap.dedent('\
       Blender version: %(bl_version)s\n\
       Addon version: %(addon_version)s\n\n\
       Blender executable: "%(blender_bin)s"\n\
-      Addon directory: "%(addon_dir)s"\n\n\
+      Addon directory: "%(addon_path)s"\n\n\
       Platform informations:\n\
         %(platform)s\n\
         %(architecture)s\n\

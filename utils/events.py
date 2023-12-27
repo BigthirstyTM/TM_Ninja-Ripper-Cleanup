@@ -8,7 +8,6 @@
 import bpy
 from bpy.app.handlers import persistent
 
-from . import path
 from . import logs
 from . import update
 
@@ -36,8 +35,7 @@ def _on_active_obj(*args) -> None:
 @persistent
 def _on_load_post(filepath) -> None:
     """Run post blender startup & file load"""
-    filepath = path.native_path(filepath)
-    if filepath == "":
+    if filepath == '':
         # Runs post startup
         pass #update.AddonUpdate.check_for_new_release()
     else:
