@@ -8,6 +8,7 @@ class OBJECT_OT_clean_nr_collection(bpy.types.Operator):
     bl_options = {'REGISTER', 'UNDO'}
 
     flip_vertically: bpy.props.BoolProperty(name='Flip vertically', default=True)
+    flip_faces: bpy.props.BoolProperty(name='Flip faces', default=True)
 
     @classmethod
     def poll(cls, context):
@@ -46,15 +47,19 @@ class OBJECT_OT_clean_nr_collection(bpy.types.Operator):
         if self.flip_vertically:        
             bpy.ops.transform.mirror(orient_type='GLOBAL', orient_matrix=((1, 0, 0), (0, 1, 0), (0, 0, 1)), orient_matrix_type='GLOBAL', constraint_axis=(False, False, True))
 
-        # Clean up Mat doubles
-        bpy.ops.object.select_all(action='SELECT')
-        bpy.data.orphans_purge(do_recursive=True)
+        if self.flip_faces:
+            bpy.ops.object.editmode_toggle()
+            bpy.ops.mesh.select_all(action='SELECT')
+            bpy.ops.mesh.flip_normals()
+            bpy.ops.object.editmode_toggle()
 
         # Separate by material
+        bpy.ops.object.select_all(action='SELECT')
         bpy.ops.mesh.separate(type='MATERIAL')
 
         self.report({'INFO'}, f'Joined objects in collection: "{collection_name}". Other collections removed.')
         
+        bpy.data.orphans_purge(do_recursive=True)
         return {'FINISHED'}
 
     def invoke(self, context, event):
