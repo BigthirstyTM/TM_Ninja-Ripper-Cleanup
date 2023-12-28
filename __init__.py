@@ -1,7 +1,7 @@
 bl_info = {
     "name": "NR_Cleanup",
     "author": "Bigthirsty & Skyrow",
-    "version": (0, 3, 0), #<major>.<minor>.<patch>
+    "version": (0, 4, 0), #<major>.<minor>.<patch>
     "blender": (3, 6, 0),
     "location": "3D Viewport > Sidebar > NR Cleanup",
     "description": "Cleans up NinjaRipped trackmania2020 maps to driving surfaces only",
