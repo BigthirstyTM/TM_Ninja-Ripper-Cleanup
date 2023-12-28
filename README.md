@@ -32,6 +32,8 @@ In Edit Mode...
 7. Enable the add-on `Trackmania: NR_Cleanup`
 
 ## How to
+You will find the addon panel in the 3D viewport right sidebar.
+
 You can use this addon at the very start of a blender map project.
 1. Your project should be empty before importing the Ninja Ripper files
 2. You can follow [this tutorial](https://www.youtube.com/watch?v=rm2u-aCrfL0&ab_channel=bmx22c) to import your map with Ninja Ripper, thanks to `bmx22c`
