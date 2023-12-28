@@ -47,7 +47,7 @@ You can use this addon at the very start of a blender map project.
 
 ### Create Route Collection
 Now you have one object per material in the resulting collection.
-1. Select the ones that are part of the route with `shift+left-click'
+1. Select the ones that are part of the route with `shift+left-click`
 2. Click on the `Create Route Collection`
 3. If you don't want the resulting objects to be linked to the first collection:
    - Select them in the first collection
