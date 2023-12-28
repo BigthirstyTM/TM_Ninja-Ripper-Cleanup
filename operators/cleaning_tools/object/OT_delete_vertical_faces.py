@@ -14,12 +14,13 @@ class OBJECT_OT_delete_vertical_faces(bpy.types.Operator):
     threshold: bpy.props.FloatProperty(
         name='Threshold',
         min=radians(0.0),
-        max=radians(90.0),
+        max=radians(89.0),
         step=10,
         default=radians(1.0),
         precision=3,
         subtype='ANGLE',
         unit='ROTATION',
+        description='Maximum angle to consider as vertical',
     )
 
     @classmethod
