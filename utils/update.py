@@ -37,7 +37,7 @@ class AddonUpdate():
     new_addon_available:bool = False
     current_blender_supported:bool = False
     can_update: bool = False
-    update_successfull = False
+    update_successful = False
 
     @classmethod
     def check_can_update(cls) :
@@ -120,5 +120,5 @@ class AddonUpdate():
                 log.exception('Error during addon update')
 
             else:
-                cls.update_successfull = True
+                cls.update_successful = True
                 log.info('Addon updated, blender must be restarted.')

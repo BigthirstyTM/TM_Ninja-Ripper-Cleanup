@@ -19,7 +19,7 @@ class VIEW3D_PT_nr_cleanup(_NRCPanel, bpy.types.Panel):
         
         layout = self.layout      
         row = layout.row(align=True)
-        if AddonUpdate.update_successfull:
+        if AddonUpdate.update_successful:
             row.label(text='Blender must be restarted !', icon ='FILE_SCRIPT')
         else:
             row.label(text=f'{current_version_str}', icon='FILE_SCRIPT')

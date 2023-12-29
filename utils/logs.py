@@ -118,6 +118,16 @@ class _HtmlStyleFormatter(logging.Formatter):
     
 
 #---------------------------------------------------------------------------
+#   Filter class
+#---------------------------------------------------------------------------
+
+class _LogsPackageFilter(logging.Filter):
+
+    def filter(record):
+        return record.name.startswith(__package__)
+    
+
+#---------------------------------------------------------------------------
 #   Logging initialization
 #---------------------------------------------------------------------------
 
@@ -174,10 +184,12 @@ if LOG_DEBUG:
 _console_handler = logging.StreamHandler()
 _console_handler.setLevel(_level)
 _console_handler.setFormatter(_ConsoleStyleFormatter(_fmt))
+_console_handler.addFilter(_LogsPackageFilter)
 
 _html_handler = logging.FileHandler(filename=html_logs_filepath, mode='a', encoding='utf-8')
 _html_handler.setLevel(_level)
 _html_handler.setFormatter(_HtmlStyleFormatter(fmt=_fmt))
+_html_handler.addFilter(_LogsPackageFilter)
 
 # Set root logger level
 _root_logger = logging.getLogger()
