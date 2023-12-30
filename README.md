@@ -1,6 +1,8 @@
 # TM Ninja Ripper Cleanup
 Blender 3.6+ addon for Trackmania2020.
 
+Join us on the [Blendermania discord](https://discord.gg/rP6x2838vY) to get help or share your ideas !
+
 ## Imported NR cleanup
 - Clean the imported meshes from Ninja Ripper in one click...
   - Remove everything but the selected collection
