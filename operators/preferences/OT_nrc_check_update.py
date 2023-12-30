@@ -19,5 +19,8 @@ class PREFERENCES_OT_nrc_check_update(bpy.types.Operator):
         else:
             self.report({'INFO'}, f'{bl_info["name"]}: no update available.')
 
+        if context.area:
+            context.area.tag_redraw()
+
         return {'FINISHED'}        
 

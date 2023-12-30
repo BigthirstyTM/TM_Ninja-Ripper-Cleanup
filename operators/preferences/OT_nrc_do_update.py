@@ -20,7 +20,10 @@ class PREFERENCES_OT_nrc_do_update(bpy.types.Operator):
                 self.report({'INFO'}, f'{bl_info["name"]}: update successful, blender must be restarted.')
             else:
                 self.report({'ERROR'}, f'{bl_info["name"]}: update error, try again later. If the problem persists, save logs and contact staff.')
-            
+
+        if context.area:
+            context.area.tag_redraw()
+
         return {'FINISHED'}        
 
     def draw(self, context):
