@@ -1,7 +1,7 @@
 import bpy
 
 
-class OBJECT_OT_clean_nr_collection(bpy.types.Operator):
+class COLLECTION_OT_clean_nr_collection(bpy.types.Operator):
     """Join all objects in the selected collection and remove other collections"""
     bl_idname = 'collection.clean_nr_collection'
     bl_label = 'Clean NR Collection'

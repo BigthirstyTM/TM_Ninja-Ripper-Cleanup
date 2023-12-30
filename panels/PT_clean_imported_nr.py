@@ -4,7 +4,8 @@ from . import _NRCChildPanel
 
 from ..operators import (
     UI_OT_message_popup,
-    OBJECT_OT_clean_nr_collection,
+    COLLECTION_OT_clean_nr_collection,
+    COLLECTION_OT_collapse_all_collections,
     OBJECT_OT_make_route_collection,
 )
 
@@ -28,8 +29,10 @@ class VIEW3D_PT_clean_imported_nr(_NRCChildPanel, bpy.types.Panel):
             + 'It will join all objects inside of the selected collection\n' \
             + 'and then separate it by material.\n' \
             + 'EVERYTHING ELSE IN THE SCENE WILL BE DELETED !'
-        box.prop(nrc_props, 'nr_collection', text='')
-        box.operator(OBJECT_OT_clean_nr_collection.bl_idname, text='Clean Map Collection')
+        row = box.row(align=True)
+        row.prop(nrc_props, 'nr_collection', text='')
+        row.operator(COLLECTION_OT_collapse_all_collections.bl_idname, text='', icon='FULLSCREEN_EXIT')
+        box.operator(COLLECTION_OT_clean_nr_collection.bl_idname, text='Clean Map Collection')
         # Create route collection
         box = layout.box()
         row = box.row()

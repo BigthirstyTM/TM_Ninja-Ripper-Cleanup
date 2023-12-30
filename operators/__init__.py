@@ -2,7 +2,10 @@
 
 # clean_imported_nr
 from .clean_imported_nr.OT_clean_nr_collection import (
-    OBJECT_OT_clean_nr_collection,
+    COLLECTION_OT_clean_nr_collection,
+)
+from .clean_imported_nr.OT_collapse_all_collections import (
+    COLLECTION_OT_collapse_all_collections,
 )
 from .clean_imported_nr.OT_make_route_collection import (
     OBJECT_OT_make_route_collection,
@@ -45,7 +48,8 @@ _classes = (
     # Props and UIList must be registered before operators
     _MaterialSelection,
     _MATERIAL_UL_material_selection,
-    OBJECT_OT_clean_nr_collection,
+    COLLECTION_OT_clean_nr_collection,
+    COLLECTION_OT_collapse_all_collections,
     OBJECT_OT_make_route_collection,
     OBJECT_OT_delete_faces_by_material,
     OBJECT_OT_delete_vertical_faces,
